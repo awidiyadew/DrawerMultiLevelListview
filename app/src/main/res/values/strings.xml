@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">DrawerExpandableListView</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="multiplied_expanding">Multiplied expanding</string>
+    <string name="always_expanded">Always expanded</string>
+
+    <string-array name="film_genre">
+        <item>Action</item>
+        <item>Comedy</item>
+        <item>Drama</item>
+        <item>Musical</item>
+        <item>Thriller</item>
+    </string-array>
+</resources>
