@@ -29,8 +29,8 @@ public class DataProvider {
      *      | - - 2.2.1
      *      | - - 2.2.2
      */
-    private static final int ITEMS_PER_LEVEL = 4;
-    private static final int MAX_LEVELS = 6;
+    private static final int ITEMS_PER_LEVEL = 5;
+    private static final int MAX_LEVELS = 3;
 
     public static List<BaseItem> getInitialItems() {
         return getSubItems(new GroupItem("root"));

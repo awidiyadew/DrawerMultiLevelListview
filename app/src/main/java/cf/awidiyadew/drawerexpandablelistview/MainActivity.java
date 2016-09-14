@@ -1,22 +1,32 @@
 package cf.awidiyadew.drawerexpandablelistview;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.List;
+
+import cf.awidiyadew.drawerexpandablelistview.data.BaseItem;
+import cf.awidiyadew.drawerexpandablelistview.data.DataProvider;
+import cf.awidiyadew.drawerexpandablelistview.views.LevelBeamView;
+import pl.openrnd.multilevellistview.ItemInfo;
+import pl.openrnd.multilevellistview.MultiLevelListAdapter;
 import pl.openrnd.multilevellistview.MultiLevelListView;
+import pl.openrnd.multilevellistview.OnItemClickListener;
 
 public class MainActivity extends AppCompatActivity{
 
-    private MultiLevelListView mListView;
+    private MultiLevelListView multiLevelListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +40,8 @@ public class MainActivity extends AppCompatActivity{
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        confMenu();
     }
 
     @Override
@@ -62,5 +74,104 @@ public class MainActivity extends AppCompatActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void confMenu() {
+        multiLevelListView = (MultiLevelListView) findViewById(R.id.multiLevelMenu);
+
+        // custom ListAdapter
+        ListAdapter listAdapter = new ListAdapter();
+
+        multiLevelListView.setAdapter(listAdapter);
+        multiLevelListView.setOnItemClickListener(mOnItemClickListener);
+
+        listAdapter.setDataItems(DataProvider.getInitialItems());
+    }
+
+    private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+
+        private void showItemDescription(Object object, ItemInfo itemInfo) {
+            StringBuilder builder = new StringBuilder("\"");
+            builder.append(((BaseItem) object).getName());
+            builder.append("\" clicked!\n");
+            builder.append(getItemInfoDsc(itemInfo));
+
+            Toast.makeText(MainActivity.this, builder.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onItemClicked(MultiLevelListView parent, View view, Object item, ItemInfo itemInfo) {
+            showItemDescription(item, itemInfo);
+        }
+
+        @Override
+        public void onGroupItemClicked(MultiLevelListView parent, View view, Object item, ItemInfo itemInfo) {
+            showItemDescription(item, itemInfo);
+        }
+    };
+
+    private class ListAdapter extends MultiLevelListAdapter {
+
+        private class ViewHolder {
+            TextView nameView;
+            TextView infoView;
+            ImageView arrowView;
+            LevelBeamView levelBeamView;
+        }
+
+        @Override
+        public List<?> getSubObjects(Object object) {
+            return DataProvider.getSubItems((BaseItem) object);
+        }
+
+        @Override
+        public boolean isExpandable(Object object) {
+            return DataProvider.isExpandable((BaseItem) object);
+        }
+
+        @Override
+        public View getViewForObject(Object object, View convertView, ItemInfo itemInfo) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                viewHolder = new ViewHolder();
+                convertView = LayoutInflater.from(MainActivity.this).inflate(R.layout.data_item, null);
+                viewHolder.infoView = (TextView) convertView.findViewById(R.id.dataItemInfo);
+                viewHolder.nameView = (TextView) convertView.findViewById(R.id.dataItemName);
+                viewHolder.arrowView = (ImageView) convertView.findViewById(R.id.dataItemArrow);
+                viewHolder.levelBeamView = (LevelBeamView) convertView.findViewById(R.id.dataItemLevelBeam);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            viewHolder.nameView.setText(((BaseItem) object).getName());
+            viewHolder.infoView.setText(getItemInfoDsc(itemInfo));
+
+            if (itemInfo.isExpandable()) {
+                viewHolder.arrowView.setVisibility(View.VISIBLE);
+                viewHolder.arrowView.setImageResource(itemInfo.isExpanded() ?
+                        R.drawable.ic_expand_less : R.drawable.ic_expand_more);
+            } else {
+                viewHolder.arrowView.setVisibility(View.GONE);
+            }
+
+            viewHolder.levelBeamView.setLevel(itemInfo.getLevel());
+
+            return convertView;
+        }
+    }
+
+    private String getItemInfoDsc(ItemInfo itemInfo) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(String.format("level[%d], idx in level[%d/%d]",
+                itemInfo.getLevel() + 1, /*Indexing starts from 0*/
+                itemInfo.getIdxInLevel() + 1 /*Indexing starts from 0*/,
+                itemInfo.getLevelSize()));
+
+        if (itemInfo.isExpandable()) {
+            builder.append(String.format(", expanded[%b]", itemInfo.isExpanded()));
+        }
+        return builder.toString();
     }
 }
