@@ -127,7 +127,7 @@ public class SampleActivity extends Activity {
             if (convertView == null) {
                 viewHolder = new ViewHolder();
                 convertView = LayoutInflater.from(SampleActivity.this).inflate(R.layout.data_item, null);
-                viewHolder.infoView = (TextView) convertView.findViewById(R.id.dataItemInfo);
+                //viewHolder.infoView = (TextView) convertView.findViewById(R.id.dataItemInfo);
                 viewHolder.nameView = (TextView) convertView.findViewById(R.id.dataItemName);
                 viewHolder.arrowView = (ImageView) convertView.findViewById(R.id.dataItemArrow);
                 viewHolder.levelBeamView = (LevelBeamView) convertView.findViewById(R.id.dataItemLevelBeam);
@@ -137,7 +137,7 @@ public class SampleActivity extends Activity {
             }
 
             viewHolder.nameView.setText(((BaseItem) object).getName());
-            viewHolder.infoView.setText(getItemInfoDsc(itemInfo));
+            //viewHolder.infoView.setText(getItemInfoDsc(itemInfo));
 
             if (itemInfo.isExpandable() && !mAlwaysExpandend) {
                 viewHolder.arrowView.setVisibility(View.VISIBLE);

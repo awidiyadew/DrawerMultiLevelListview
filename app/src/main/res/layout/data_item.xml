@@ -25,16 +25,16 @@
             android:id="@+id/dataItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_default"
-            android:textColor="@android:color/black" />
+            android:textSize="@dimen/font_list_drawer"
+            android:textColor="@color/font_item_drawer" />
 
-        <TextView
+        <!--<TextView
             android:singleLine="true"
             android:id="@+id/dataItemInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black" />-->
     </LinearLayout>
 
     <ImageView

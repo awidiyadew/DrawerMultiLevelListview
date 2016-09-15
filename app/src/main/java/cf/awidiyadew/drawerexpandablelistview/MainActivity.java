@@ -14,10 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cf.awidiyadew.drawerexpandablelistview.data.BaseItem;
+import cf.awidiyadew.drawerexpandablelistview.data.CustomDataProvider;
 import cf.awidiyadew.drawerexpandablelistview.data.DataProvider;
+import cf.awidiyadew.drawerexpandablelistview.data.GroupItem;
+import cf.awidiyadew.drawerexpandablelistview.data.Item;
 import cf.awidiyadew.drawerexpandablelistview.views.LevelBeamView;
 import pl.openrnd.multilevellistview.ItemInfo;
 import pl.openrnd.multilevellistview.MultiLevelListAdapter;
@@ -85,7 +90,7 @@ public class MainActivity extends AppCompatActivity{
         multiLevelListView.setAdapter(listAdapter);
         multiLevelListView.setOnItemClickListener(mOnItemClickListener);
 
-        listAdapter.setDataItems(DataProvider.getInitialItems());
+        listAdapter.setDataItems(CustomDataProvider.getInitialItems());
     }
 
     private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
@@ -121,12 +126,22 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public List<?> getSubObjects(Object object) {
-            return DataProvider.getSubItems((BaseItem) object);
+            //return CustomDataProvider.getSubItems((BaseItem) object);
+
+            int level = ((GroupItem) object).getLevel();
+            String menu = ((GroupItem) object).getName();
+
+            List<BaseItem> result = new ArrayList<>();
+
+            if (level == 1 && menu.equalsIgnoreCase("KATEGORI I"))
+                result = listKategori();
+
+            return result;
         }
 
         @Override
         public boolean isExpandable(Object object) {
-            return DataProvider.isExpandable((BaseItem) object);
+            return CustomDataProvider.isExpandable((BaseItem) object);
         }
 
         @Override
@@ -135,7 +150,7 @@ public class MainActivity extends AppCompatActivity{
             if (convertView == null) {
                 viewHolder = new ViewHolder();
                 convertView = LayoutInflater.from(MainActivity.this).inflate(R.layout.data_item, null);
-                viewHolder.infoView = (TextView) convertView.findViewById(R.id.dataItemInfo);
+                //viewHolder.infoView = (TextView) convertView.findViewById(R.id.dataItemInfo);
                 viewHolder.nameView = (TextView) convertView.findViewById(R.id.dataItemName);
                 viewHolder.arrowView = (ImageView) convertView.findViewById(R.id.dataItemArrow);
                 viewHolder.levelBeamView = (LevelBeamView) convertView.findViewById(R.id.dataItemLevelBeam);
@@ -145,7 +160,7 @@ public class MainActivity extends AppCompatActivity{
             }
 
             viewHolder.nameView.setText(((BaseItem) object).getName());
-            viewHolder.infoView.setText(getItemInfoDsc(itemInfo));
+            //viewHolder.infoView.setText(getItemInfoDsc(itemInfo));
 
             if (itemInfo.isExpandable()) {
                 viewHolder.arrowView.setVisibility(View.VISIBLE);
@@ -173,5 +188,25 @@ public class MainActivity extends AppCompatActivity{
             builder.append(String.format(", expanded[%b]", itemInfo.isExpanded()));
         }
         return builder.toString();
+    }
+
+    private List<BaseItem> listKategori(){
+
+        List<BaseItem> result = new ArrayList<>();
+
+        BaseItem i1 = new Item("BERAS SUPER");
+        BaseItem i2 = new Item("SAYUR HIJAU");
+        BaseItem i3 = new Item("DAGING FRESH");
+
+        result.add(i1);
+        result.add(i2);
+        result.add(i3);
+
+        return result;
+    }
+
+    private List<String> listKategori2(){
+        String[] kategori = {"MINUMAN", "MAKANAN RINGAN"};
+        return Arrays.asList(kategori);
     }
 }

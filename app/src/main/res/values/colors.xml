@@ -11,4 +11,6 @@
     <color name="level_4">#f1c40f</color>
     <color name="level_5">#2ecc71</color>
     <color name="level_default">#000000</color>
+
+    <color name="font_item_drawer">#000000</color>
 </resources>

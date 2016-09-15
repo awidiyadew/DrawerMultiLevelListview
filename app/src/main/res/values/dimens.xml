@@ -8,11 +8,12 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="font_default">16dp</dimen>
+    <dimen name="font_list_drawer">14sp</dimen>
     <dimen name="font_small">12dp</dimen>
     <dimen name="offset_default">3dp</dimen>
     <dimen name="padding_default">12dp</dimen>
 
-    <dimen name="data_item_row_height">45dp</dimen>
+    <dimen name="data_item_row_height">48dp</dimen>
     <dimen name="data_item_row_padding">5dp</dimen>
 
     <dimen name="level_beam_line_width">6dp</dimen>
