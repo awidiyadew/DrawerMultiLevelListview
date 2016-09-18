@@ -2,13 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="@dimen/data_item_row_height"
-    android:padding="@dimen/data_item_row_padding"
     android:layout_width="match_parent">
 
     <cf.awidiyadew.drawerexpandablelistview.views.LevelBeamView
         android:id="@+id/dataItemLevelBeam"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/data_item_row_height" />
+        android:layout_height="@dimen/data_item_row_height"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -21,12 +20,11 @@
         android:layout_marginLeft="@dimen/offset_default"
         android:layout_marginRight="@dimen/offset_default">
         <TextView
-            android:singleLine="true"
             android:id="@+id/dataItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_list_drawer"
-            android:textColor="@color/font_item_drawer" />
+            android:textStyle="bold"
+            android:textSize="@dimen/font_list_drawer" />
 
         <!--<TextView
             android:singleLine="true"
@@ -43,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_expand_more"/>
+        android:src="@drawable/ic_expand_more"
+        style="@style/Widget.AppCompat.DrawerArrowToggle" />
 
 </RelativeLayout>

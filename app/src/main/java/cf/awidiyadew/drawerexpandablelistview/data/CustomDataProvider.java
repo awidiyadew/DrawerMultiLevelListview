@@ -59,7 +59,7 @@ public class CustomDataProvider {
         * */
         switch (level){
             case LEVEL_1 :
-                switch (menuItem){
+                switch (menuItem.toUpperCase()){
                     case "KATEGORI" :
                         result = getListKategori();
                         break;
